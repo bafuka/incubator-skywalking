@@ -22,7 +22,7 @@ metrics based on the tracing data.
 * HTTP Client
   * [Feign](https://github.com/OpenFeign/feign) 9.x
   * [Netflix Spring Cloud Feign](https://github.com/spring-cloud/spring-cloud-openfeign) 1.1.x -> 2.x
-  * [Okhttp](https://github.com/square/okhttp) 3.x
+  * [Okhttp](https://github.com/square/okhttp) 3.x -> 4.x
   * [Apache httpcomponent HttpClient](http://hc.apache.org/) 2.0 -> 3.1, 4.2, 4.3
   * [Spring RestTemplete](https://github.com/spring-projects/spring-framework) 4.x
   * [Jetty Client](http://www.eclipse.org/jetty/) 9
@@ -30,13 +30,13 @@ metrics based on the tracing data.
   * [AsyncHttpClient](https://github.com/AsyncHttpClient/async-http-client) 2.x
   * JRE HttpURLConnection (Optional²)
 * HTTP Gateway
-  * [Spring Cloud Gateway](https://spring.io/projects/spring-cloud-gateway) 2.0.2.RELEASE -> 2.2.x.RELEASE (Optional²)
+  * [Spring Cloud Gateway](https://spring.io/projects/spring-cloud-gateway) 2.0.2.RELEASE -> 3.x (Optional²)
 * JDBC
   * Mysql Driver 5.x, 6.x, 8.x
   * Oracle Driver (Optional¹)
   * H2 Driver 1.3.x -> 1.4.x
   * [Sharding-JDBC](https://github.com/shardingjdbc/sharding-jdbc) 1.5.x
-  * [ShardingSphere](https://github.com/apache/shardingsphere) 3.0.0, 4.0.0-RC1, 4.0.0, 4.0.1, 4.1.0, 4.1.1
+  * [ShardingSphere](https://github.com/apache/shardingsphere) 3.0.0, 4.0.0-RC1, 4.0.0, 4.0.1, 4.1.0, 4.1.1, 5.0.0-beta
   * PostgreSQL Driver 8.x, 9.x, 42.x
   * Mariadb Driver 2.x, 1.8
   * [InfluxDB](https://github.com/influxdata/influxdb-java) 2.5 -> 2.17
@@ -85,6 +85,8 @@ metrics based on the tracing data.
     * [cassandra-java-driver](https://github.com/datastax/java-driver) 3.7.0-3.7.2
   * HBase
     * [hbase-client](https://github.com/apache/hbase) HTable 1.0.0-2.4.2
+  * Neo4j
+    * [Neo4j-java](https://neo4j.com/docs/java-manual/current) 4.x
 * Service Discovery
   * [Netflix Eureka](https://github.com/Netflix/eureka)
 * Distributed Coordination
@@ -94,6 +96,7 @@ metrics based on the tracing data.
   * Spring Core Async SuccessCallback/FailureCallback/ListenableFutureCallback 4.x
   * Spring Transaction 4.x and 5.x (Optional²)
 * [Hystrix: Latency and Fault Tolerance for Distributed Systems](https://github.com/Netflix/Hystrix) 1.4.20 -> 1.5.18
+* [Sentinel: The Sentinel of Your Microservices](https://github.com/alibaba/Sentinel) 1.7.0 -> 1.8.1
 * Scheduler
   * [Elastic Job](https://github.com/elasticjob/elastic-job) 2.x
   * [Apache ShardingSphere-Elasticjob](https://github.com/apache/shardingsphere-elasticjob) 3.0.0-alpha
@@ -113,6 +116,7 @@ metrics based on the tracing data.
   * JRE Callable and Runnable (Optional²)
 * Cache
   * [Ehcache](https://www.ehcache.org/) 2.x
+  * [GuavaCache](https://github.com/google/guava) 18.x -> 23.x (Optional²)
 * Kotlin
   * [Coroutine](https://kotlinlang.org/docs/reference/coroutines-overview.html) 1.0.1 -> 1.3.x (Optional²)
 * GraphQL
