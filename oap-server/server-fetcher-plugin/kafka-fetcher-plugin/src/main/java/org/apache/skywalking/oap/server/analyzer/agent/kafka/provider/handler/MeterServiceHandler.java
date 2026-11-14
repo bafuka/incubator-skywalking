@@ -38,33 +38,44 @@ import org.apache.skywalking.oap.server.telemetry.api.MetricsTag;
  */
 @Slf4j
 public class MeterServiceHandler extends AbstractKafkaHandler {
-    private IMeterProcessService processService;
+    private final IMeterProcessService processService;
     private final HistogramMetrics histogram;
+    private final HistogramMetrics histogramBatch;
     private final CounterMetrics errorCounter;
 
     public MeterServiceHandler(ModuleManager manager, KafkaFetcherConfig config) {
         super(manager, config);
         this.processService = manager.find(AnalyzerModule.NAME).provider().getService(IMeterProcessService.class);
         MetricsCreator metricsCreator = manager.find(TelemetryModule.NAME)
-                .provider()
-                .getService(MetricsCreator.class);
+                                               .provider()
+                                               .getService(MetricsCreator.class);
         histogram = metricsCreator.createHistogramMetric(
-                "meter_in_latency", "The process latency of meter",
-                new MetricsTag.Keys("protocol"), new MetricsTag.Values("kafka-fetcher")
+            "meter_in_latency",
+            "The process latency of meter",
+            new MetricsTag.Keys("protocol"),
+            new MetricsTag.Values("kafka")
         );
-        errorCounter = metricsCreator.createCounter("meter_analysis_error_count", "The error number of meter analysis",
-                new MetricsTag.Keys("protocol"),
-                new MetricsTag.Values("kafka-fetcher")
+        histogramBatch = metricsCreator.createHistogramMetric(
+            "meter_batch_in_latency",
+            "The process latency of meter",
+            new MetricsTag.Keys("protocol"),
+            new MetricsTag.Values("kafka")
+        );
+        errorCounter = metricsCreator.createCounter(
+            "meter_analysis_error_count",
+            "The error number of meter analysis",
+            new MetricsTag.Keys("protocol"),
+            new MetricsTag.Values("kafka")
         );
     }
 
     @Override
     public void handle(final ConsumerRecord<String, Bytes> record) {
-        try {
+        try (HistogramMetrics.Timer ignored = histogramBatch.createTimer()) {
             MeterDataCollection meterDataCollection = MeterDataCollection.parseFrom(record.value().get());
             MeterProcessor processor = processService.createProcessor();
             meterDataCollection.getMeterDataList().forEach(meterData -> {
-                try (HistogramMetrics.Timer ignored = histogram.createTimer()) {
+                try (HistogramMetrics.Timer ignored2 = histogram.createTimer()) {
                     processor.read(meterData);
                 } catch (Exception e) {
                     errorCounter.inc();
@@ -72,7 +83,6 @@ public class MeterServiceHandler extends AbstractKafkaHandler {
                 }
             });
             processor.process();
-
         } catch (Exception e) {
             log.error("handle record failed", e);
         }

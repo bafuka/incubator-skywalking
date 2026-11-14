@@ -18,11 +18,18 @@
 
 package org.apache.skywalking.oap.server.core.alarm;
 
+import com.google.gson.JsonObject;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.skywalking.oap.server.core.analysis.manual.searchtag.Tag;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Alarm message represents the details of each alarm.
@@ -40,5 +47,22 @@ public class AlarmMessage {
     private List<Tag> tags;
     private long startTime;
     private transient int period;
-    private transient boolean onlyAsCondition;
+    private Set<String> hooks = new HashSet<>();
+    private String expression;
+    private JsonObject mqeMetricsSnapshot;
+    private String uuid;
+    /**
+     * The layer(s) the alarmed entity belongs to at alarm-mint time.
+     * Empty list when the layer is unknown (rare; covers entities for which
+     * MetadataQueryService returns no layer mapping).
+     */
+    private List<String> layers = Collections.emptyList();
+
+    public AlarmMessage(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public AlarmMessage() {
+        this.uuid = UUID.randomUUID().toString();
+    }
 }
